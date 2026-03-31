@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap');
+
+:root {
+  --font-manrope: 'Manrope', sans-serif;
+  --font-dm-serif: 'DM Serif Display', serif;
+
+  --navy: #0d1b2a;
+  --navy-mid: #1a2e45;
+  --navy-light: #243b55;
+  --teal: #1cb8a8;
+  --teal-light: #2dd4c4;
+  --teal-pale: rgba(28,184,168,0.10);
+  --gold: #c9a84c;
+  --gold-pale: rgba(201,168,76,0.12);
+
+  --grey-50: #f8f9fb;
+  --grey-100: #eef0f4;
+  --grey-200: #dce0e8;
+  --grey-400: #8d96a7;
+  --grey-600: #5a6272;
+
+  --card-shadow: 0 2px 20px rgba(13,27,42,0.08);
+  --card-shadow-hover: 0 8px 40px rgba(13,27,42,0.14);
+  --radius: 14px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-manrope);
+  background: #ffffff;
+  color: var(--navy);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Keyframes ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ── Utility classes ── */
+.animate-fade-up      { animation: fadeUp 0.7s ease both; }
+.animate-delay-1      { animation-delay: 0.10s; }
+.animate-delay-2      { animation-delay: 0.20s; }
+.animate-delay-3      { animation-delay: 0.30s; }
+.animate-delay-4      { animation-delay: 0.40s; }
+.animate-delay-5      { animation-delay: 0.50s; }
+.animate-spin-slow    { animation: spin-slow 20s linear infinite; }
+.animate-spin-slow-rv { animation: spin-slow 30s linear infinite reverse; }
+.animate-float        { animation: float 4s ease-in-out infinite; }
+.animate-pulse-dot    { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--grey-50); }
+::-webkit-scrollbar-thumb { background: var(--grey-200); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--teal); }
+
+/* ── Focus ring ── */
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+/* ── Selection ── */
+::selection { background: var(--teal-pale); color: var(--navy); }
+
+/* ── Smooth transitions for interactive elements ── */
+a, button { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── Form inputs ── */
+input, select, textarea {
+  font-family: var(--font-manrope);
+}
+
+/* ── Hero ring animations ── */
+.hero-ring-1 { animation: spin-slow 20s linear infinite; }
+.hero-ring-2 { animation: spin-slow 30s linear infinite reverse; }
+
+/* ── Custom checkbox ── */
+input[type="checkbox"] { accent-color: var(--teal); }
+input[type="range"]    { accent-color: var(--teal); }
+
+/* ── Table ── */
+.ingredients-table th { text-align: left; }
+.ingredients-table tr:hover td { background: var(--grey-50); }
+
+/* ── Details/summary ── */
+details summary { list-style: none; }
+details summary::-webkit-details-marker { display: none; }
+details[open] summary .summary-plus { display: none; }
+details[open] summary .summary-minus { display: inline; }
+details summary .summary-minus { display: none; }
