@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { products } from '@/data/products'
+import { prisma } from '@/lib/prisma'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -9,18 +9,42 @@ export async function GET(request: NextRequest) {
   const maxPrice = searchParams.get('maxPrice')
   const slug = searchParams.get('slug')
 
-  let result = [...products]
+  try {
+    if (slug) {
+      const product = await prisma.product.findUnique({
+        where: { slug },
+        include: { ingredients: true, benefits: true }
+      })
 
-  if (slug) {
-    const product = result.find(p => p.slug === slug)
-    if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 })
-    return NextResponse.json(product)
+      if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 })
+
+      return NextResponse.json({
+        ...product,
+        usage: product.usage ? product.usage.split('\n') : [],
+        whoFor: product.whoFor ? product.whoFor.split('\n') : []
+      })
+    }
+
+    const whereClause: any = {}
+    if (line) whereClause.line = line
+    if (goal) whereClause.goal = goal
+    if (format) whereClause.format = format
+    if (maxPrice) whereClause.price = { lte: Number(maxPrice) }
+
+    const products = await prisma.product.findMany({
+      where: whereClause,
+      include: { ingredients: true, benefits: true }
+    })
+
+    const formattedProducts = products.map((p: any) => ({
+      ...p,
+      usage: p.usage ? p.usage.split('\n') : [],
+      whoFor: p.whoFor ? p.whoFor.split('\n') : []
+    }))
+
+    return NextResponse.json({ products: formattedProducts, total: formattedProducts.length })
+  } catch (error) {
+    console.error('Database Error:', error)
+    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 })
   }
-
-  if (line) result = result.filter(p => p.line === line)
-  if (goal) result = result.filter(p => p.goal === goal)
-  if (format) result = result.filter(p => p.format === format)
-  if (maxPrice) result = result.filter(p => p.price <= Number(maxPrice))
-
-  return NextResponse.json({ products: result, total: result.length })
 }

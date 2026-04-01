@@ -1,0 +1,14 @@
+Seeding Database...
+TypeError: Cannot read properties of undefined (reading 'replace')
+    at createBetterSQLite3Client (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:658:22)
+    at PrismaBetterSqlite3AdapterFactory.connect (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\adapter-better-sqlite3\dist\index.js:647:59)
+    at e.connect (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\client\src\runtime\core\engines\client\LocalExecutor.ts:49:58)
+    at jt.#connectExecutor (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:233:34)
+    at callback (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:182:35)
+    at Object.runInChildSpan (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\client\src\runtime\core\tracing\TracingHelper.ts:28:12)
+    at di.runInChildSpan (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\client\src\runtime\core\tracing\TracingHelper.ts:53:36)
+    at jt.#ensureStarted (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:177:47)
+    at jt.request (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\client\src\runtime\core\engines\client\ClientEngine.ts:464:52)
+    at Object.singleLoader (C:\Users\indra\Downloads\form6-nextjs\form6\node_modules\@prisma\client\src\runtime\RequestHandler.ts:112:52) {
+  clientVersion: '7.6.0'
+}
