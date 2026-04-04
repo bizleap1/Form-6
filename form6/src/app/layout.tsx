@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import SessionProvider from '@/components/providers/SessionProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -31,10 +32,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans antialiased">
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+      <body className="font-sans antialiased text-navy">
+        <SessionProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   )

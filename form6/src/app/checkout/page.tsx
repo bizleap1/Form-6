@@ -5,7 +5,10 @@ import { useForm } from 'react-hook-form'
 import { useCartStore } from '@/lib/store'
 import { formatPrice, calculateVAT, calculateShipping } from '@/lib/utils'
 import Button from '@/components/ui/Button'
-import { ShoppingBag, Trash2, ArrowLeft } from 'lucide-react'
+import { ShoppingBag, Trash2, ArrowLeft, LogOut } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 type PaymentMethod = 'card' | 'paypal' | 'apple' | 'upi'
 
@@ -27,13 +30,29 @@ interface FormData {
 const EU_COUNTRIES = ['Germany', 'Austria', 'Switzerland', 'Netherlands', 'Belgium', 'France', 'Italy', 'Spain', 'Poland', 'Sweden', 'Denmark', 'Norway', 'Finland', 'United Kingdom', 'Ireland', 'India', 'Other']
 
 export default function CheckoutPage() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
   const { items, total, removeItem, updateQty, clearCart } = useCartStore()
   const [payMethod, setPayMethod] = useState<PaymentMethod>('card')
   const [couponApplied, setCouponApplied] = useState(false)
   const [couponCode, setCouponCode] = useState('')
   const [orderPlaced, setOrderPlaced] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>()
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login')
+    }
+    if (session?.user) {
+      if (session.user.email) setValue('email', session.user.email)
+      if (session.user.name) {
+        const parts = session.user.name.split(' ')
+        setValue('firstName', parts[0] || '')
+        setValue('lastName', parts.slice(1).join(' ') || '')
+      }
+    }
+  }, [status, session, router, setValue])
 
   const subtotal = total()
   const discount = couponApplied ? subtotal * 0.1 : 0
@@ -50,12 +69,32 @@ export default function CheckoutPage() {
     }
   }
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: FormData) => {
     setLoading(true)
-    await new Promise(r => setTimeout(r, 1800))
-    setOrderPlaced(true)
-    clearCart()
-    setLoading(false)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: items.map(i => ({ id: i.product.id, quantity: i.quantity })),
+          shipping: data,
+          total: orderTotal,
+          paymentMethod: payMethod
+        })
+      })
+
+      if (res.ok) {
+        setOrderPlaced(true)
+        clearCart()
+      } else {
+        const err = await res.json()
+        alert(err.error || 'Failed to place order')
+      }
+    } catch (err) {
+      alert('Network error')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (orderPlaced) {
@@ -75,7 +114,18 @@ export default function CheckoutPage() {
     )
   }
 
-  if (items.length === 0) {
+  if (status === 'loading') {
+    return (
+      <div className="pt-[72px] min-h-screen bg-grey-50 flex items-center justify-center">
+        <div className="animate-pulse flex flex-col items-center">
+          <div className="w-12 h-12 bg-teal/20 rounded-full mb-4"></div>
+          <div className="h-4 w-32 bg-grey-200 rounded"></div>
+        </div>
+      </div>
+    )
+  }
+
+  if (items.length === 0 && !orderPlaced) {
     return (
       <div className="pt-[72px] min-h-screen bg-grey-50 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-6 py-20">

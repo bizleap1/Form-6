@@ -1,22 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 
-/**
- * Checkout API — Stripe integration ready.
- */
-
-// import Stripe from 'stripe'
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-04-10' })
-
-interface OrderItemPayload {
-  productId: number
-  name: string
-  price: number
+interface OrderItemInput {
+  id: number
   quantity: number
 }
 
 interface OrderPayload {
-  items: OrderItemPayload[]
+  items: OrderItemInput[]
   shipping: { 
     firstName: string; 
     lastName: string; 
@@ -32,8 +25,31 @@ interface OrderPayload {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const body: OrderPayload = await request.json()
-    const { items, shipping, couponCode, paymentMethod } = body
+    const { items: inputItems, shipping, couponCode, paymentMethod } = body
+
+    if (!inputItems?.length) return NextResponse.json({ error: 'No items in order' }, { status: 400 })
+    
+    // Fetch real product details to prevent price tampering
+    const products = await prisma.product.findMany({
+      where: { id: { in: inputItems.map(i => i.id) } }
+    })
+
+    const items = inputItems.map(item => {
+      const product = products.find(p => p.id === item.id)
+      if (!product) throw new Error(`Product ${item.id} not found`)
+      return {
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: item.quantity
+      }
+    })
 
     if (!items?.length) return NextResponse.json({ error: 'No items in order' }, { status: 400 })
     if (!shipping?.email) return NextResponse.json({ error: 'Shipping details required' }, { status: 400 })

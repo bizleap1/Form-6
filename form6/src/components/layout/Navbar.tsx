@@ -1,9 +1,10 @@
 'use client'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { ShoppingBag, Search, Heart, User, Menu, X } from 'lucide-react'
+import { ShoppingBag, Search, Heart, User, Menu, X, LogOut } from 'lucide-react'
 import { useCartStore } from '@/lib/store'
 import Button from '@/components/ui/Button'
+import { useSession, signOut } from 'next-auth/react'
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -16,6 +17,7 @@ const navLinks = [
 ]
 
 export default function Navbar() {
+  const { data: session } = useSession()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const count = useCartStore(s => s.count())
@@ -67,7 +69,6 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           {[
             { icon: Search, href: '/shop', title: 'Search' },
-            { icon: User, href: '#', title: 'Account' },
             { icon: Heart, href: '#', title: 'Wishlist' },
           ].map(({ icon: Icon, href, title }) => (
             <Link
@@ -79,6 +80,26 @@ export default function Navbar() {
               <Icon size={18} />
             </Link>
           ))}
+
+          {session ? (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => signOut({ callbackUrl: '/' })}
+                title="Sign Out"
+                className="w-10 h-10 rounded-[10px] flex items-center justify-center text-grey-600 hover:bg-grey-50 hover:text-red-500 transition-all duration-200"
+              >
+                <LogOut size={18} />
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              title="Sign In"
+              className="w-10 h-10 rounded-[10px] flex items-center justify-center text-grey-600 hover:bg-grey-50 hover:text-teal transition-all duration-200"
+            >
+              <User size={18} />
+            </Link>
+          )}
 
           <Link
             href="/checkout"
