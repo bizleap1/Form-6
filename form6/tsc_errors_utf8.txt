@@ -1,0 +1,86 @@
+﻿.next/types/app/api/auth/[...nextauth]/route.ts(3,34): error TS2307: Cannot find module 'next/server.js' or its corresponding type declarations.
+.next/types/app/api/blog/route.ts(3,34): error TS2307: Cannot find module 'next/server.js' or its corresponding type declarations.
+.next/types/app/api/checkout/route.ts(3,34): error TS2307: Cannot find module 'next/server.js' or its corresponding type declarations.
+.next/types/app/api/newsletter/route.ts(3,34): error TS2307: Cannot find module 'next/server.js' or its corresponding type declarations.
+.next/types/app/api/products/route.ts(3,34): error TS2307: Cannot find module 'next/server.js' or its corresponding type declarations.
+.next/types/app/api/shipping/route.ts(3,34): error TS2307: Cannot find module 'next/server.js' or its corresponding type declarations.
+.next/types/app/blog/[slug]/page.ts(3,59): error TS2307: Cannot find module 'next/dist/lib/metadata/types/metadata-interface.js' or its corresponding type declarations.
+.next/types/app/blog/page.ts(3,59): error TS2307: Cannot find module 'next/dist/lib/metadata/types/metadata-interface.js' or its corresponding type declarations.
+.next/types/app/checkout/page.ts(3,59): error TS2307: Cannot find module 'next/dist/lib/metadata/types/metadata-interface.js' or its corresponding type declarations.
+.next/types/app/page.ts(3,59): error TS2307: Cannot find module 'next/dist/lib/metadata/types/metadata-interface.js' or its corresponding type declarations.
+.next/types/app/product/[slug]/page.ts(3,59): error TS2307: Cannot find module 'next/dist/lib/metadata/types/metadata-interface.js' or its corresponding type declarations.
+.next/types/app/science/page.ts(3,59): error TS2307: Cannot find module 'next/dist/lib/metadata/types/metadata-interface.js' or its corresponding type declarations.
+.next/types/app/shop/page.ts(3,59): error TS2307: Cannot find module 'next/dist/lib/metadata/types/metadata-interface.js' or its corresponding type declarations.
+prisma/seed.ts(1,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/app/api/blog/route.ts(1,43): error TS2307: Cannot find module 'next/server' or its corresponding type declarations.
+src/app/api/checkout/route.ts(1,43): error TS2307: Cannot find module 'next/server' or its corresponding type declarations.
+src/app/api/checkout/route.ts(52,40): error TS7006: Parameter 'tx' implicitly has an 'any' type.
+src/app/api/newsletter/route.ts(1,43): error TS2307: Cannot find module 'next/server' or its corresponding type declarations.
+src/app/api/products/route.ts(1,43): error TS2307: Cannot find module 'next/server' or its corresponding type declarations.
+src/app/api/shipping/route.ts(1,43): error TS2307: Cannot find module 'next/server' or its corresponding type declarations.
+src/app/blog/[slug]/page.tsx(1,26): error TS2307: Cannot find module 'next/navigation' or its corresponding type declarations.
+src/app/blog/[slug]/page.tsx(2,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/app/blog/[slug]/page.tsx(6,27): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+src/app/blog/page.tsx(3,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/app/checkout/page.tsx(3,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/app/checkout/page.tsx(4,25): error TS2307: Cannot find module 'react-hook-form' or its corresponding type declarations.
+src/app/checkout/page.tsx(8,48): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+src/app/layout.tsx(1,31): error TS2307: Cannot find module 'next' or its corresponding type declarations.
+src/app/not-found.tsx(1,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/app/product/[slug]/page.tsx(3,26): error TS2307: Cannot find module 'next/navigation' or its corresponding type declarations.
+src/app/product/[slug]/page.tsx(4,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/app/product/[slug]/page.tsx(5,56): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+src/app/product/[slug]/page.tsx(27,35): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(28,18): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(30,49): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(30,75): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(30,102): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(33,13): error TS2345: Argument of type 'Product | undefined' is not assignable to parameter of type 'Product'.
+  Type 'undefined' is not assignable to type 'Product'.
+src/app/product/[slug]/page.tsx(34,21): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(47,37): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(47,111): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(49,54): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(59,36): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(59,56): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(88,16): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(90,60): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(93,35): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(93,60): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(94,16): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(95,98): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(99,85): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(104,16): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(135,60): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(148,49): error TS2345: Argument of type 'Product | undefined' is not assignable to parameter of type 'Product'.
+  Type 'undefined' is not assignable to type 'Product'.
+src/app/product/[slug]/page.tsx(176,44): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(194,22): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(215,66): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(233,18): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(243,20): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(256,87): error TS18048: 'product' is possibly 'undefined'.
+src/app/product/[slug]/page.tsx(258,63): error TS18048: 'product' is possibly 'undefined'.
+src/app/robots.ts(1,36): error TS2307: Cannot find module 'next' or its corresponding type declarations.
+src/app/science/page.tsx(1,31): error TS2307: Cannot find module 'next' or its corresponding type declarations.
+src/app/science/page.tsx(2,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/app/shop/page.tsx(3,33): error TS2307: Cannot find module 'next/navigation' or its corresponding type declarations.
+src/app/sitemap.ts(1,36): error TS2307: Cannot find module 'next' or its corresponding type declarations.
+src/components/layout/Footer.tsx(1,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/components/layout/Navbar.tsx(2,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/components/layout/Navbar.tsx(4,59): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+src/components/sections/BlogPreview.tsx(1,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/components/sections/BlogPreview.tsx(4,28): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+src/components/sections/FeaturedProducts.tsx(3,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/components/sections/FeaturedProducts.tsx(7,28): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+src/components/sections/Hero.tsx(3,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/components/sections/Hero.tsx(7,28): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+src/components/sections/Hero.tsx(78,50): error TS2322: Type 'string' is not assignable to type 'undefined'.
+src/components/sections/Hero.tsx(79,50): error TS2322: Type 'string' is not assignable to type 'undefined'.
+src/components/sections/ScienceBanner.tsx(1,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/components/shop/ProductCard.tsx(2,18): error TS2307: Cannot find module 'next/link' or its corresponding type declarations.
+src/components/shop/ProductCard.tsx(3,36): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+src/lib/prisma.ts(1,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/lib/utils.ts(1,39): error TS7016: Could not find a declaration file for module 'clsx'. 'C:/Users/indra/Downloads/form6-nextjs/form6/node_modules/clsx/dist/clsx.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/clsx` if it exists or add a new declaration (.d.ts) file containing `declare module 'clsx';`
+src/lib/utils.ts(2,25): error TS2307: Cannot find module 'tailwind-merge' or its corresponding type declarations.

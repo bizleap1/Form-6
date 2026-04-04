@@ -1,0 +1,109 @@
+﻿node : node:internal/modul
+es/cjs/loader:1424
+At line:1 char:1
++ node node_modules/prisma
+/build/index.js generate 
+> prisma_generate_er ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (n  
+  ode:internal/modules/   
+ cjs/loader:1424:Strin    
+g) [], RemoteExceptio    n
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+  throw err;
+  ^
+
+Error: Cannot find module 
+'./lib/retry'
+Require stack:
+- C:\Users\indra\Downloads
+\form6-nextjs\form6\node_m
+odules\retry\index.js
+- C:\Users\indra\Downloads
+\form6-nextjs\form6\node_m
+odules\@prisma\dev\node_mo
+dules\proper-lockfile\lib\
+lockfile.js
+- C:\Users\indra\Downloads
+\form6-nextjs\form6\node_m
+odules\@prisma\dev\node_mo
+dules\proper-lockfile\inde
+x.js
+- C:\Users\indra\Downloads
+\form6-nextjs\form6\node_m
+odules\@prisma\dev\dist\st
+ate.cjs
+- C:\Users\indra\Downloads
+\form6-nextjs\form6\node_m
+odules\prisma\build\index.
+js
+    at 
+Module._resolveFilename (n
+ode:internal/modules/cjs/l
+oader:1421:15)
+    at defaultResolveImpl 
+(node:internal/modules/cjs
+/loader:1059:19)
+    at 
+resolveForCJSWithHooks (no
+de:internal/modules/cjs/lo
+ader:1064:22)
+    at Module._load (node:
+internal/modules/cjs/loade
+r:1227:37)
+    at 
+TracingChannel.traceSync (
+node:diagnostics_channel:3
+28:14)
+    at wrapModuleLoad (nod
+e:internal/modules/cjs/loa
+der:245:24)
+    at Module.require (nod
+e:internal/modules/cjs/loa
+der:1504:12)
+    at require (node:inter
+nal/modules/helpers:152:16
+)
+    at Object.<anonymous> 
+(C:\Users\indra\Downloads\
+form6-nextjs\form6\node_mo
+dules\retry\index.js:1:18)
+    at Module._compile (no
+de:internal/modules/cjs/lo
+ader:1761:14) {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\indra\\Dow
+nloads\\form6-nextjs\\form
+6\\node_modules\\retry\\in
+dex.js',
+    'C:\\Users\\indra\\Dow
+nloads\\form6-nextjs\\form
+6\\node_modules\\@prisma\\
+dev\\node_modules\\proper-
+lockfile\\lib\\lockfile.js
+',
+    'C:\\Users\\indra\\Dow
+nloads\\form6-nextjs\\form
+6\\node_modules\\@prisma\\
+dev\\node_modules\\proper-
+lockfile\\index.js',
+    'C:\\Users\\indra\\Dow
+nloads\\form6-nextjs\\form
+6\\node_modules\\@prisma\\
+dev\\dist\\state.cjs',
+    'C:\\Users\\indra\\Dow
+nloads\\form6-nextjs\\form
+6\\node_modules\\prisma\\b
+uild\\index.js'
+  ]
+}
+
+Node.js v24.13.0

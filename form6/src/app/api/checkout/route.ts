@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
     // ── Perist order to database ──
     try {
-      await prisma.$transaction(async (tx) => {
+      await prisma.$transaction(async (tx: any) => {
         // 1. Ensure user exists (Upsert by email)
         const user = await tx.user.upsert({
           where: { email: shipping.email },

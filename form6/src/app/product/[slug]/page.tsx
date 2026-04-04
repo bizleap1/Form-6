@@ -17,7 +17,10 @@ type Tab = typeof TABS[number]
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
   const product = products.find(p => p.slug === params.slug)
-  if (!product) notFound()
+  if (!product) {
+    notFound()
+    return null
+  }
 
   const [qty, setQty] = useState(1)
   const [tab, setTab] = useState<Tab>('Ingredients')

@@ -7,8 +7,8 @@ import ProductBottle from '@/components/ui/ProductBottle'
 import { ArrowRight } from 'lucide-react'
 
 export default function Hero() {
-  const [coreStyle, setCoreStyle] = useState({ borderColor: undefined })
-  const [primeStyle, setPrimeStyle] = useState({ borderColor: undefined })
+  const [coreStyle, setCoreStyle] = useState<{ borderColor?: string }>({})
+  const [primeStyle, setPrimeStyle] = useState<{ borderColor?: string }>({})
 
   const cards = [
     { line: 'core', icon: '⚡', label: 'FORM6 CORE', sub: 'High-performance for athletes', href: '/shop?line=core' },
