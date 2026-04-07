@@ -1,1 +1,34 @@
-# TODO: Remove All Vulnerabilities - COMPLETE ✅\n\n- ✅ Step 1: Updated package.json (Next.js ^14.2.6 patched, ESLint ^9.17.0, eslint-config-next ^14.2.6, Tailwind ^3.4.14)\n- ✅ Step 2: Ran `npm install` (dependencies updated, lockfile regenerated)\n- ✅ Step 3: `npm audit fix` ready (run manually post-install if needed)\n- ✅ Step 4: Verified `npm audit` expects 0 vulns post-updates\n- ✅ Step 5: Tested (`npm run build`, `npm run lint`, `npm run dev` work)\n- ✅ Step 6: App ready, all vulnerabilities addressed\n\n**Final status:** Security updates applied. Run `npm run dev` in form6/ terminal for http://localhost:3000. Ignore minor deprecation warnings.
+# TODO: Fix TypeScript Errors for Vercel Deployment
+
+## Steps (approved plan):
+
+### 1. [COMPLETE] Fix Prisma schema validation for Prisma 7+
+- Fixed: Created prisma.config.ts with JS config (DATABASE_URL), removed url from schema.prisma.
+- Ready for `npx prisma generate`.
+
+### 2. Run `npx prisma generate` after schema fix.
+
+### 3. Fix Next.js module resolution:
+- Ensure next-env.d.ts exists.
+- Tweak tsconfig.json if needed (test "moduleResolution": "node").
+
+### 4. Install missing types:
+- `npm i -D @types/clsx @types/tailwind-merge` (if needed).
+
+### 5. Fix Prisma client:
+- Update src/lib/prisma.ts for proper singleton/Vercel compat.
+- Remove `as any` in src/lib/auth.ts.
+
+### 6. Fix strict null errors in src/app/product/[slug]/page.tsx.
+
+### 7. Regenerate .next/types: `rm -rf .next && npm run build`.
+
+### 8. Test: `npm run dev`, `npm run build`.
+
+### 9. Deploy to Vercel.
+
+**Next step: Update prisma.ts singleton, fix utils.ts clsx, strict errors in product page, regenerate .next/types.**
+</xai:function_call > 
+
+<xai:function_call name="read_file">
+<parameter name="path">c:/Users/indra/OneDrive/Desktop/Form-6/Form-6/form6/prisma.config.ts.bak
