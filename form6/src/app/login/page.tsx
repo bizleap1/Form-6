@@ -7,21 +7,26 @@ import { useForm } from 'react-hook-form'
 import Button from '@/components/ui/Button'
 import { LogIn, Mail, Lock, ArrowRight, CheckCircle2 } from 'lucide-react'
 
+interface LoginFormData {
+  email: string
+  password: string
+}
+
 export default function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [registered, setRegistered] = useState(false)
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>()
 
   useEffect(() => {
-    if (searchParams.get('registered')) {
+    if (searchParams?.get('registered')) {
       setRegistered(true)
     }
   }, [searchParams])
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LoginFormData) => {
     setLoading(true)
     setError('')
     try {

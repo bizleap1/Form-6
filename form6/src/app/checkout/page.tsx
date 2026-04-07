@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { useCartStore } from '@/lib/store'
+import { useCartStore, type CartItem } from '@/lib/store'
 import { formatPrice, calculateVAT, calculateShipping } from '@/lib/utils'
 import Button from '@/components/ui/Button'
 import { ShoppingBag, Trash2, ArrowLeft, LogOut } from 'lucide-react'
@@ -76,7 +76,7 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: items.map(i => ({ id: i.product.id, quantity: i.quantity })),
+          items: items.map((i: CartItem) => ({ id: i.product.id, quantity: i.quantity })),
           shipping: data,
           total: orderTotal,
           paymentMethod: payMethod
@@ -290,7 +290,7 @@ export default function CheckoutPage() {
 
               {/* Items */}
               <div className="space-y-0 mb-5">
-                {items.map(item => (
+                {items.map((item: CartItem) => (
                   <div key={item.product.id} className="flex gap-4 items-center py-4 border-b border-grey-100">
                     <div className={`w-14 h-14 rounded-[10px] flex items-center justify-center text-2xl flex-shrink-0 ${
                       item.product.line === 'core' ? 'bg-teal/10' : 'bg-amber-50'

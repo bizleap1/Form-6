@@ -1,0 +1,16 @@
+﻿src/app/checkout/page.tsx(4,25): error TS2307: Cannot find module 'react-hook-form' or its corresponding type declarations.
+src/app/checkout/page.tsx(79,28): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/app/checkout/page.tsx(293,28): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/app/login/page.tsx(6,25): error TS2307: Cannot find module 'react-hook-form' or its corresponding type declarations.
+src/app/login/page.tsx(19,9): error TS18047: 'searchParams' is possibly 'null'.
+src/app/register/page.tsx(5,25): error TS2307: Cannot find module 'react-hook-form' or its corresponding type declarations.
+src/app/shop/page.tsx(11,21): error TS18047: 'searchParams' is possibly 'null'.
+src/components/layout/Navbar.tsx(23,30): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/lib/store.ts(1,24): error TS7016: Could not find a declaration file for module 'zustand'. 'C:/Users/indra/OneDrive/Desktop/Form-6/Form-6/form6/node_modules/zustand/esm/index.mjs' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/zustand` if it exists or add a new declaration (.d.ts) file containing `declare module 'zustand';`
+src/lib/store.ts(2,46): error TS7016: Could not find a declaration file for module 'zustand/middleware'. 'C:/Users/indra/OneDrive/Desktop/Form-6/Form-6/form6/node_modules/zustand/esm/middleware.mjs' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/zustand` if it exists or add a new declaration (.d.ts) file containing `declare module 'zustand/middleware';`
+src/lib/store.ts(3,35): error TS7016: Could not find a declaration file for module 'zustand'. 'C:/Users/indra/OneDrive/Desktop/Form-6/Form-6/form6/node_modules/zustand/esm/index.mjs' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/zustand` if it exists or add a new declaration (.d.ts) file containing `declare module 'zustand';`
+src/lib/store.ts(31,6): error TS7006: Parameter 'set' implicitly has an 'any' type.
+src/lib/store.ts(31,11): error TS7006: Parameter 'get' implicitly has an 'any' type.

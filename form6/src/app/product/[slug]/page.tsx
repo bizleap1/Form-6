@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Heart, ShoppingBag, Minus, Plus, Check } from 'lucide-react'
@@ -15,8 +15,9 @@ import { formatPrice } from '@/lib/utils'
 const TABS = ['Ingredients', 'The Science', 'Usage', 'Reviews', 'FAQ'] as const
 type Tab = typeof TABS[number]
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  const _product = products.find(p => p.slug === params.slug)
+export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = React.use(params)
+  const _product = products.find(p => p.slug === slug)
   if (!_product) {
     notFound()
     return null

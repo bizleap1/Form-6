@@ -6,13 +6,19 @@ import { useForm } from 'react-hook-form'
 import Button from '@/components/ui/Button'
 import { User, Mail, Lock, ArrowRight } from 'lucide-react'
 
+interface RegisterFormData {
+  name: string
+  email: string
+  password: string
+}
+
 export default function RegisterPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>()
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: RegisterFormData) => {
     setLoading(true)
     setError('')
     try {

@@ -28,7 +28,7 @@ type CartPersist = (
 
 export const useCartStore = create<CartStore>()(
   (persist as CartPersist)(
-    (set: any, get: any) => ({
+    (set, get) => ({
       items: [],
       wishlist: [],
 

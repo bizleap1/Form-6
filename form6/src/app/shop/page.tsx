@@ -8,7 +8,7 @@ import { products } from '@/data/products'
 
 function ShopContent() {
   const searchParams = useSearchParams()
-  const lineParam = searchParams.get('line')
+  const lineParam = searchParams?.get('line')
 
   const [filters, setFilters] = useState({
     lines: lineParam ? [lineParam] : ['core', 'prime'],
