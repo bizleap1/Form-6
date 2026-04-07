@@ -16,11 +16,12 @@ const TABS = ['Ingredients', 'The Science', 'Usage', 'Reviews', 'FAQ'] as const
 type Tab = typeof TABS[number]
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
-  const product = products.find(p => p.slug === params.slug)
-  if (!product) {
+  const _product = products.find(p => p.slug === params.slug)
+  if (!_product) {
     notFound()
     return null
   }
+  const product = _product!
 
   const [qty, setQty] = useState(1)
   const [tab, setTab] = useState<Tab>('Ingredients')

@@ -67,7 +67,6 @@ export default function Hero() {
             {cards.map(card => {
               const isCore = card.line === 'core'
               const style = isCore ? coreStyle : primeStyle
-              const setStyle = isCore ? setCoreStyle : setPrimeStyle
 
               return (
                 <Link
@@ -75,8 +74,8 @@ export default function Hero() {
                   href={card.href}
                   className="group block no-underline bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/9 hover:-translate-y-0.5 transition-all duration-300"
                   style={style}
-                  onMouseEnter={() => setStyle({ borderColor: isCore ? '#1cb8a8' : '#c9a84c' })}
-                  onMouseLeave={() => setStyle({ borderColor: 'rgba(255,255,255,0.10)' })}
+                  onMouseEnter={() => isCore ? setCoreStyle({ borderColor: '#1cb8a8' }) : setPrimeStyle({ borderColor: '#c9a84c' })}
+                  onMouseLeave={() => isCore ? setCoreStyle({ borderColor: 'rgba(255,255,255,0.10)' }) : setPrimeStyle({ borderColor: 'rgba(255,255,255,0.10)' })}
                 >
                   <div className={`w-11 h-11 rounded-[12px] flex items-center justify-center text-xl mb-3 ${
                     card.line === 'core' ? 'bg-teal/15' : 'bg-amber-400/15'
