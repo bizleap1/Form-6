@@ -1,10 +1,9 @@
 'use client'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { ShoppingBag, Search, Heart, User, Menu, X, LogOut } from 'lucide-react'
+import * as Icons from 'lucide-react'
 import { useCartStore } from '@/lib/store'
 import Button from '@/components/ui/Button'
-import { useSession, signOut } from 'next-auth/react'
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -17,10 +16,16 @@ const navLinks = [
 ]
 
 export default function Navbar() {
-  const { data: session } = useSession()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const count = useCartStore(s => s.count())
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const updateCount = () => setCount(useCartStore.getState().count())
+    updateCount()
+    const unsub = useCartStore.subscribe(updateCount)
+    return unsub
+  }, [])
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20)
@@ -68,8 +73,8 @@ export default function Navbar() {
         {/* Right Icons */}
         <div className="flex items-center gap-2">
           {[
-            { icon: Search, href: '/shop', title: 'Search' },
-            { icon: Heart, href: '#', title: 'Wishlist' },
+            { icon: Icons.Search, href: '/shop', title: 'Search' },
+            { icon: Icons.Heart, href: '#', title: 'Wishlist' },
           ].map(({ icon: Icon, href, title }) => (
             <Link
               key={title}
@@ -81,32 +86,20 @@ export default function Navbar() {
             </Link>
           ))}
 
-          {session ? (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => signOut({ callbackUrl: '/' })}
-                title="Sign Out"
-                className="w-10 h-10 rounded-[10px] flex items-center justify-center text-grey-600 hover:bg-grey-50 hover:text-red-500 transition-all duration-200"
-              >
-                <LogOut size={18} />
-              </button>
-            </div>
-          ) : (
-            <Link
-              href="/login"
-              title="Sign In"
-              className="w-10 h-10 rounded-[10px] flex items-center justify-center text-grey-600 hover:bg-grey-50 hover:text-teal transition-all duration-200"
-            >
-              <User size={18} />
-            </Link>
-          )}
+          <Link
+            href="/shop"
+            title="Shop"
+            className="w-10 h-10 rounded-[10px] flex items-center justify-center text-grey-600 hover:bg-grey-50 hover:text-teal transition-all duration-200"
+          >
+            <Icons.User size={18} />
+          </Link>
 
           <Link
             href="/checkout"
             title="Cart"
             className="relative w-10 h-10 rounded-[10px] flex items-center justify-center text-grey-600 hover:bg-grey-50 hover:text-navy transition-all duration-200"
           >
-            <ShoppingBag size={18} />
+            <Icons.ShoppingBag size={18} />
             {count > 0 && (
               <span className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-teal text-white text-[9px] font-extrabold flex items-center justify-center">
                 {count}
@@ -123,7 +116,7 @@ export default function Navbar() {
             className="lg:hidden w-10 h-10 rounded-lg flex items-center justify-center text-grey-600 hover:bg-grey-50"
             onClick={() => setMobileOpen(v => !v)}
           >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileOpen ? <Icons.X size={20} /> : <Icons.Menu size={20} />}
           </button>
         </div>
       </div>
@@ -152,3 +145,4 @@ export default function Navbar() {
     </header>
   )
 }
+

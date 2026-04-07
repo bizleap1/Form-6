@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { blogPosts } from '@/data/blog'
 import Newsletter from '@/components/sections/Newsletter'
 import Button from '@/components/ui/Button'
-import { ArrowLeft } from 'lucide-react'
+import * as Icons from 'lucide-react'
 
 const bgClasses = [
   'bg-gradient-to-br from-teal-50 to-teal-100',
@@ -27,7 +27,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       {/* Article */}
       <article className="max-w-[780px] mx-auto px-6 py-14">
         <Link href="/blog" className="inline-flex items-center gap-2 text-[13px] font-semibold text-grey-400 hover:text-teal transition-colors mb-8 no-underline">
-          <ArrowLeft size={14} /> Back to Blog
+          <Icons.ArrowLeft className="h-3.5 w-3.5" /> Back to Blog
         </Link>
 
         <div className="text-[11px] font-bold uppercase tracking-widest text-teal mb-3">{post.category}</div>

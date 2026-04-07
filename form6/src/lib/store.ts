@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { persist, type PersistOptions } from 'zustand/middleware'
-import type { StateCreator } from 'zustand'
+import { persist } from 'zustand/middleware'
+
 import type { Product } from '@/data/products'
 
 export interface CartItem {
@@ -21,73 +21,63 @@ interface CartStore {
   count: () => number
 }
 
-type CartPersist = (
-  config: StateCreator<CartStore>,
-  options: PersistOptions<CartStore>
-) => StateCreator<CartStore>
-
 export const useCartStore = create<CartStore>()(
-  (persist as CartPersist)(
-    (set: any, get: any) => ({
+  persist(
+    (set, get) => ({
       items: [],
       wishlist: [],
 
-      addItem: (product: Product, qty = 1) => {
-        set((state: CartStore) => {
-          const existing = state.items.find((i: CartItem) => i.product.id === product.id)
-          if (existing) {
-            return {
-              items: state.items.map((i: CartItem) =>
-                i.product.id === product.id
-                  ? { ...i, quantity: i.quantity + qty }
-                  : i
-              )
-            }
-          }
-          return { items: [...state.items, { product, quantity: qty }] }
-        })
+      addItem: (product: Product, qty: number = 1) => {
+        const existing = get().items.find((i) => i.product.id === product.id)
+        if (existing) {
+          set({
+            items: get().items.map((i) =>
+              i.product.id === product.id
+                ? { ...i, quantity: i.quantity + qty }
+                : i
+            ),
+          })
+          return
+        }
+        set({ items: [...get().items, { product, quantity: qty }] })
       },
 
-      removeItem: (productId: number) => {
-        set((state: CartStore) => ({ items: state.items.filter((i: CartItem) => i.product.id !== productId) }))
-      },
+      removeItem: (productId: number) => set({ items: get().items.filter((i: CartItem) => i.product.id !== productId) }),
 
       updateQty: (productId: number, qty: number) => {
-        if (qty < 1) { get().removeItem(productId); return }
-        set((state: CartStore) => ({
-          items: state.items.map((i: CartItem) =>
+        if (qty < 1) {
+          get().removeItem(productId)
+          return
+        }
+        set({
+          items: get().items.map((i: CartItem) =>
             i.product.id === productId ? { ...i, quantity: qty } : i
-          )
-        }))
+          ),
+        })
       },
 
       clearCart: () => set({ items: [] }),
 
-      toggleWishlist: (product: Product) => {
-        set((state: CartStore) => {
-          const exists = state.wishlist.find((p: Product) => p.id === product.id)
-          return {
-            wishlist: exists
-              ? state.wishlist.filter((p: Product) => p.id !== product.id)
-              : [...state.wishlist, product]
-          }
-        })
+      toggleWishlist: (product) => {
+        const exists = get().wishlist.find((p) => p.id === product.id)
+        if (exists) {
+          set({
+            wishlist: get().wishlist.filter((p) => p.id !== product.id),
+          })
+        } else {
+          set({ wishlist: [...get().wishlist, product] })
+        }
       },
 
-      isWishlisted: (productId: number) => {
-        return get().wishlist.some((p: Product) => p.id === productId)
-      },
+      isWishlisted: (productId) => get().wishlist.some((p) => p.id === productId),
 
-      total: () => {
-        return get().items.reduce(
-          (sum: number, item: CartItem) => sum + item.product.price * item.quantity, 0
-        )
-      },
+      total: () => get().items.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
 
-      count: () => {
-        return get().items.reduce((sum: number, item: CartItem) => sum + item.quantity, 0)
-      },
+      count: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
     }),
-    { name: 'form6-cart' }
+    {
+      name: 'form6-cart-storage',
+    }
   )
 )
+

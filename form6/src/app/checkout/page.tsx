@@ -1,14 +1,11 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { useCartStore, type CartItem } from '@/lib/store'
+import { useCartStore } from '@/lib/store'
 import { formatPrice, calculateVAT, calculateShipping } from '@/lib/utils'
 import Button from '@/components/ui/Button'
-import { ShoppingBag, Trash2, ArrowLeft, LogOut } from 'lucide-react'
-import { useSession, signOut } from 'next-auth/react'
+import * as Icons from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 
 type PaymentMethod = 'card' | 'paypal' | 'apple' | 'upi'
 
@@ -21,38 +18,31 @@ interface FormData {
   city: string
   postcode: string
   country: string
-  cardNumber: string
-  expiry: string
-  cvv: string
-  coupon: string
 }
 
 const EU_COUNTRIES = ['Germany', 'Austria', 'Switzerland', 'Netherlands', 'Belgium', 'France', 'Italy', 'Spain', 'Poland', 'Sweden', 'Denmark', 'Norway', 'Finland', 'United Kingdom', 'Ireland', 'India', 'Other']
 
 export default function CheckoutPage() {
-  const { data: session, status } = useSession()
   const router = useRouter()
-  const { items, total, removeItem, updateQty, clearCart } = useCartStore()
+  const cartStore = useCartStore() // Fix: useCartStore() call
+  const { items, total, removeItem, updateQty, clearCart } = cartStore
   const [payMethod, setPayMethod] = useState<PaymentMethod>('card')
   const [couponApplied, setCouponApplied] = useState(false)
   const [couponCode, setCouponCode] = useState('')
   const [orderPlaced, setOrderPlaced] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>()
+  const [formData, setFormData] = useState<FormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    postcode: '',
+    country: '',
+  })
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login')
-    }
-    if (session?.user) {
-      if (session.user.email) setValue('email', session.user.email)
-      if (session.user.name) {
-        const parts = session.user.name.split(' ')
-        setValue('firstName', parts[0] || '')
-        setValue('lastName', parts.slice(1).join(' ') || '')
-      }
-    }
-  }, [status, session, router, setValue])
+  // Guest checkout: removed session hooks and automatic form filling
 
   const subtotal = total()
   const discount = couponApplied ? subtotal * 0.1 : 0
@@ -69,15 +59,23 @@ export default function CheckoutPage() {
     }
   }
 
-  const onSubmit = async (data: FormData) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
     setLoading(true)
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: items.map((i: CartItem) => ({ id: i.product.id, quantity: i.quantity })),
-          shipping: data,
+          items: items.map((i: any) => ({ id: i.product.id, quantity: i.quantity })),
+          shipping: formData,
           total: orderTotal,
           paymentMethod: payMethod
         })
@@ -114,16 +112,7 @@ export default function CheckoutPage() {
     )
   }
 
-  if (status === 'loading') {
-    return (
-      <div className="pt-[72px] min-h-screen bg-grey-50 flex items-center justify-center">
-        <div className="animate-pulse flex flex-col items-center">
-          <div className="w-12 h-12 bg-teal/20 rounded-full mb-4"></div>
-          <div className="h-4 w-32 bg-grey-200 rounded"></div>
-        </div>
-      </div>
-    )
-  }
+
 
   if (items.length === 0 && !orderPlaced) {
     return (
@@ -143,7 +132,7 @@ export default function CheckoutPage() {
       <div className="max-w-[1200px] mx-auto px-6 py-12">
         <div className="mb-8">
           <Link href="/shop" className="inline-flex items-center gap-2 text-[13px] font-semibold text-grey-400 hover:text-teal transition-colors no-underline">
-            <ArrowLeft size={14} /> Continue Shopping
+            <Icons.ArrowLeft size={14} /> Continue Shopping
           </Link>
         </div>
 
@@ -156,45 +145,82 @@ export default function CheckoutPage() {
             {/* Shipping */}
             <div className="bg-white rounded-xl p-8 shadow-card">
               <h2 className="text-[18px] font-extrabold text-navy mb-6 pb-4 border-b border-grey-100">Contact & Shipping</h2>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={onSubmit}>
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
                     <label className="block text-[13px] font-bold text-grey-600 mb-1.5">First Name</label>
-                    <input {...register('firstName', { required: true })} placeholder="Johann"
-                      className={`w-full px-4 py-3 rounded-[10px] border-[1.5px] text-[14px] text-navy outline-none transition-all ${errors.firstName ? 'border-red-400' : 'border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10'}`} />
+                    <input 
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      required 
+                      placeholder="Johann"
+                      className="w-full px-4 py-3 rounded-[10px] border-[1.5px] border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10 text-[14px] text-navy outline-none transition-all" />
                   </div>
                   <div>
                     <label className="block text-[13px] font-bold text-grey-600 mb-1.5">Last Name</label>
-                    <input {...register('lastName', { required: true })} placeholder="Schmidt"
-                      className={`w-full px-4 py-3 rounded-[10px] border-[1.5px] text-[14px] text-navy outline-none transition-all ${errors.lastName ? 'border-red-400' : 'border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10'}`} />
+                    <input 
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      required 
+                      placeholder="Schmidt"
+                      className="w-full px-4 py-3 rounded-[10px] border-[1.5px] border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10 text-[14px] text-navy outline-none transition-all" />
                   </div>
                 </div>
                 <div className="mb-4">
                   <label className="block text-[13px] font-bold text-grey-600 mb-1.5">Email Address</label>
-                  <input {...register('email', { required: true, pattern: /^\S+@\S+\.\S+$/ })} type="email" placeholder="you@email.com"
-                    className={`w-full px-4 py-3 rounded-[10px] border-[1.5px] text-[14px] text-navy outline-none transition-all ${errors.email ? 'border-red-400' : 'border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10'}`} />
+                  <input 
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required 
+                    placeholder="you@email.com"
+                    className="w-full px-4 py-3 rounded-[10px] border-[1.5px] border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10 text-[14px] text-navy outline-none transition-all" />
                 </div>
                 <div className="mb-4">
                   <label className="block text-[13px] font-bold text-grey-600 mb-1.5">Street Address</label>
-                  <input {...register('address', { required: true })} placeholder="123 Hauptstraße"
+                  <input 
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    required 
+                    placeholder="123 Hauptstraße"
                     className="w-full px-4 py-3 rounded-[10px] border-[1.5px] border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10 text-[14px] text-navy outline-none transition-all" />
                 </div>
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
                     <label className="block text-[13px] font-bold text-grey-600 mb-1.5">City</label>
-                    <input {...register('city', { required: true })} placeholder="Berlin"
+                    <input 
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required 
+                      placeholder="Berlin"
                       className="w-full px-4 py-3 rounded-[10px] border-[1.5px] border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10 text-[14px] text-navy outline-none transition-all" />
                   </div>
                   <div>
                     <label className="block text-[13px] font-bold text-grey-600 mb-1.5">Postcode</label>
-                    <input {...register('postcode', { required: true })} placeholder="10115"
+                    <input 
+                      name="postcode"
+                      value={formData.postcode}
+                      onChange={handleChange}
+                      required 
+                      placeholder="10115"
                       className="w-full px-4 py-3 rounded-[10px] border-[1.5px] border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10 text-[14px] text-navy outline-none transition-all" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-[13px] font-bold text-grey-600 mb-1.5">Country</label>
-                  <select {...register('country')}
-                    className="w-full px-4 py-3 rounded-[10px] border-[1.5px] border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10 text-[14px] text-navy outline-none bg-white transition-all cursor-pointer">
+                  <select 
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    required 
+                    className="w-full px-4 py-3 rounded-[10px] border-[1.5px] border-grey-200 focus:border-teal focus:ring-2 focus:ring-teal/10 text-[14px] text-navy outline-none bg-white transition-all cursor-pointer"
+                  >
+                    <option value="">Select Country</option>
                     {EU_COUNTRIES.map(c => <option key={c}>{c}</option>)}
                   </select>
                 </div>
@@ -214,6 +240,7 @@ export default function CheckoutPage() {
                 ] as const).map(pm => (
                   <button
                     key={pm.key}
+                    type="button"
                     onClick={() => setPayMethod(pm.key)}
                     className={`flex flex-col items-center gap-1 py-3 rounded-[10px] border-[1.5px] transition-all duration-200 text-[12px] font-bold ${
                       payMethod === pm.key
@@ -267,9 +294,9 @@ export default function CheckoutPage() {
                 size="lg"
                 className="w-full mt-6 justify-center"
                 loading={loading}
-                onClick={handleSubmit(onSubmit)}
+                type="submit"
               >
-                <ShoppingBag size={16} />
+                <Icons.ShoppingBag size={16} />
                 Place Order · {formatPrice(orderTotal)}
               </Button>
 
@@ -290,7 +317,7 @@ export default function CheckoutPage() {
 
               {/* Items */}
               <div className="space-y-0 mb-5">
-                {items.map((item: CartItem) => (
+                {items.map((item: any) => (
                   <div key={item.product.id} className="flex gap-4 items-center py-4 border-b border-grey-100">
                     <div className={`w-14 h-14 rounded-[10px] flex items-center justify-center text-2xl flex-shrink-0 ${
                       item.product.line === 'core' ? 'bg-teal/10' : 'bg-amber-50'
@@ -309,7 +336,7 @@ export default function CheckoutPage() {
                     <div className="text-right">
                       <div className="text-[14px] font-bold text-navy">{formatPrice(item.product.price * item.quantity)}</div>
                       <button onClick={() => removeItem(item.product.id)} className="text-grey-300 hover:text-red-400 transition-colors mt-1">
-                        <Trash2 size={12} />
+                        <Icons.Trash2 size={12} />
                       </button>
                     </div>
                   </div>

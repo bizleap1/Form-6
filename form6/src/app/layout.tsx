@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import SessionProvider from '@/components/providers/SessionProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -21,7 +20,11 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <head>
@@ -33,11 +36,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="font-sans antialiased text-navy">
-        <SessionProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </SessionProvider>
+        <Navbar />
+        <main>
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   )
