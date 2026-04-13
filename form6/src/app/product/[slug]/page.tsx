@@ -2,7 +2,12 @@
 import React, { useState } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { Heart, ShoppingBag, Minus, Plus, Check } from 'lucide-react'
+import * as Icons from 'lucide-react'
+const Heart = (Icons as any).Heart
+const ShoppingBag = (Icons as any).ShoppingBag
+const Minus = (Icons as any).Minus
+const Plus = (Icons as any).Plus
+const Check = (Icons as any).Check
 import { products } from '@/data/products'
 import { useCartStore } from '@/lib/store'
 import { useToast } from '@/components/ui/Toast'

@@ -4,7 +4,8 @@ import Link from 'next/link'
 import ProductGrid from '@/components/shop/ProductGrid'
 import Button from '@/components/ui/Button'
 import { products } from '@/data/products'
-import { ArrowRight } from 'lucide-react'
+import * as Icons from 'lucide-react'
+const ArrowRight = (Icons as any).ArrowRight
 
 const goals = ['All', 'Recovery', 'Sleep', 'Focus', 'Energy', 'Immunity', 'Longevity']
 

@@ -9,7 +9,7 @@ export default function NotFound() {
         <h1 className="font-serif text-5xl text-navy mb-4" style={{ fontFamily: 'DM Serif Display, serif' }}>404</h1>
         <h2 className="text-2xl font-bold text-navy mb-3">Page not found</h2>
         <p className="text-grey-600 mb-8 leading-relaxed">
-          This page doesn't exist. But our precision-formulated nutraceuticals do — and they're waiting for you.
+          This page doesn&apos;t exist. But our precision-formulated nutraceuticals do — and they&apos;re waiting for you.
         </p>
         <div className="flex gap-4 justify-center">
           <Link href="/"><Button>Go Home</Button></Link>

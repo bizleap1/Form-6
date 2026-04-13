@@ -34,7 +34,7 @@ export default function ScienceBanner() {
               Science is our<br /><em className="text-teal not-italic">only</em> standard
             </h2>
             <p className="text-[16px] text-white/60 leading-relaxed mb-10 max-w-[440px]">
-              Every formula begins in the laboratory. We don't follow trends — we follow evidence.
+              Every formula begins in the laboratory. We don&apos;t follow trends — we follow evidence.
             </p>
 
             <div className="grid grid-cols-2 gap-4">

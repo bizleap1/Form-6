@@ -60,7 +60,7 @@ export default function SciencePage() {
             <div className="text-[11px] font-bold tracking-widest uppercase text-teal mb-3">How We Work</div>
             <h2 className="font-serif text-4xl text-navy mb-4" style={{ fontFamily: 'DM Serif Display, serif' }}>From Research to Results</h2>
             <p className="text-grey-600 text-[16px] max-w-[500px] mx-auto leading-relaxed">
-              Our formulation process starts at the cellular level — and doesn't end until every dose meets our clinical standard.
+              Our formulation process starts at the cellular level — and doesn&apos;t end until every dose meets our clinical standard.
             </p>
           </div>
 

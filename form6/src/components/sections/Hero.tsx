@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import ProductBottle from '@/components/ui/ProductBottle'
-import { ArrowRight } from 'lucide-react'
+import * as Icons from 'lucide-react'
+const ArrowRight = (Icons as any).ArrowRight
 
 export default function Hero() {
   const [coreStyle, setCoreStyle] = useState<{ borderColor?: string }>({})

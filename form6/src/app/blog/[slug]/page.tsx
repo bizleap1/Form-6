@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { blogPosts } from '@/data/blog'
 import Newsletter from '@/components/sections/Newsletter'
 import Button from '@/components/ui/Button'
-import * as Icons from 'lucide-react'
 
 const bgClasses = [
   'bg-gradient-to-br from-teal-50 to-teal-100',
@@ -11,11 +10,12 @@ const bgClasses = [
   'bg-gradient-to-br from-amber-50 to-orange-100',
 ]
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const postIndex = blogPosts.findIndex(p => p.slug === params.slug)
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const postIndex = blogPosts.findIndex(p => p.slug === slug)
   if (postIndex === -1) notFound()
   const post = blogPosts[postIndex]
-  const related = blogPosts.filter(p => p.id !== post.id).slice(0, 3)
+  const related = blogPosts.filter(p => (p as any).id !== post.id).slice(0, 3)
 
   return (
     <div className="pt-[72px]">
@@ -27,7 +27,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       {/* Article */}
       <article className="max-w-[780px] mx-auto px-6 py-14">
         <Link href="/blog" className="inline-flex items-center gap-2 text-[13px] font-semibold text-grey-400 hover:text-teal transition-colors mb-8 no-underline">
-          <Icons.ArrowLeft className="h-3.5 w-3.5" /> Back to Blog
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg> Back to Blog
         </Link>
 
         <div className="text-[11px] font-bold uppercase tracking-widest text-teal mb-3">{post.category}</div>
@@ -49,12 +49,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <p>When evaluating any nutraceutical ingredient, we apply a rigorous evidence hierarchy: mechanistic plausibility must be supported by in vitro and animal data, followed by human pharmacokinetic studies, and finally randomised controlled trials in relevant populations at clinically meaningful doses.</p>
           <p>The challenge in the supplement industry is that most products are formulated based on mechanistic data alone — or worse, on case reports and testimonials — without the controlled trial evidence needed to make legitimate efficacy claims.</p>
           <div className="p-6 bg-teal/5 border-l-4 border-teal rounded-r-xl my-8">
-            <p className="font-semibold text-navy italic">"We only include an ingredient in our formulations when there is at least two independently-replicated positive RCTs in humans at the dose we use. This is a non-negotiable standard."</p>
+            <p className="font-semibold text-navy italic">&quot;We only include an ingredient in our formulations when there is at least two independently-replicated positive RCTs in humans at the dose we use. This is a non-negotiable standard.&quot;</p>
             <div className="mt-3 text-[13px] text-grey-400">— Dr. Annika Hoffmann, Chief Scientific Officer, Form6</div>
           </div>
           <h2 className="font-serif text-3xl text-navy mt-8 mb-4" style={{ fontFamily: 'DM Serif Display, serif' }}>Clinical Dosing vs. Label Doses</h2>
-          <p>Perhaps the most prevalent form of misleading supplementation is the use of sub-clinical doses — amounts that appear on the ingredient label but fall far below what clinical trials demonstrate to be effective. This practice, known as "fairy dusting," allows companies to display impressive ingredient lists while delivering no meaningful physiological effect.</p>
-          <p>Form6's commitment to clinical dosing means every active ingredient in our formulations is included at or above the minimum effective dose established in peer-reviewed trials. What's on our label is what's in your capsule.</p>
+          <p>Perhaps the most prevalent form of misleading supplementation is the use of sub-clinical doses — amounts that appear on the ingredient label but fall far below what clinical trials demonstrate to be effective. This practice, known as &quot;fairy dusting,&quot; allows companies to display impressive ingredient lists while delivering no meaningful physiological effect.</p>
+          <p>Form6&apos;s commitment to clinical dosing means every active ingredient in our formulations is included at or above the minimum effective dose established in peer-reviewed trials. What&apos;s on our label is what&apos;s in your capsule.</p>
         </div>
 
         {/* References */}
@@ -78,7 +78,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <h2 className="font-serif text-3xl text-navy mb-8" style={{ fontFamily: 'DM Serif Display, serif' }}>More from The Form6 Lab</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {related.map((p, i) => (
-              <Link key={p.id} href={`/blog/${p.slug}`} className="group block no-underline">
+              <Link key={(p as any).id} href={`/blog/${p.slug}`} className="group block no-underline">
                 <div className="rounded-xl overflow-hidden border border-grey-100 shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 bg-white">
                   <div className={`h-[140px] flex items-center justify-center text-4xl ${bgClasses[i % bgClasses.length]}`}>{p.emoji}</div>
                   <div className="p-5">

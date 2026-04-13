@@ -1,6 +1,8 @@
 'use client'
 import Link from 'next/link'
-import { Heart, ShoppingBag } from 'lucide-react'
+import * as Icons from 'lucide-react'
+const Heart = (Icons as any).Heart
+const ShoppingBag = (Icons as any).ShoppingBag
 import { useCartStore } from '@/lib/store'
 import { useToast } from '@/components/ui/Toast'
 import ProductBottle from '@/components/ui/ProductBottle'

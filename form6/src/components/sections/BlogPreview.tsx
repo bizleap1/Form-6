@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import { blogPosts } from '@/data/blog'
-import { ArrowRight } from 'lucide-react'
+import * as Icons from 'lucide-react'
+const ArrowRight = (Icons as any).ArrowRight
 
 const bgClasses = [
   'bg-gradient-to-br from-teal-50 to-teal-100',
